@@ -19,4 +19,4 @@ struct Diagnostic {
 
 
     std::string normalized_id;
-}
+};
