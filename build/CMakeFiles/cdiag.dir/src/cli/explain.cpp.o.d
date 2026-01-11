@@ -956,4 +956,5 @@ CMakeFiles/cdiag.dir/src/cli/explain.cpp.o: \
   /Library/Developer/CommandLineTools/SDKs/MacOSX.sdk/usr/include/c++/v1/print \
   /Library/Developer/CommandLineTools/SDKs/MacOSX.sdk/usr/include/unistd.h \
   /Users/anishnagula/Code/cdiag/src/diagnostics/Parser.h \
-  /Users/anishnagula/Code/cdiag/src/diagnostics/Diagnostic.h
+  /Users/anishnagula/Code/cdiag/src/diagnostics/Diagnostic.h \
+  /Users/anishnagula/Code/cdiag/src/diagnostics/Normalizer.h

@@ -3,6 +3,8 @@
 #include <vector>
 
 #include "diagnostics/Parser.h"
+#include "diagnostics/Normalizer.h"
+
 
 int run_explain() {
     std::vector<std::string> lines;
@@ -14,6 +16,9 @@ int run_explain() {
 
     DiagnosticParser parser;
     auto diagnostics = parser.parse(lines);
+
+    DiagnosticNormalizer normalizer;
+    normalizer.normalize(diagnostics);
 
     std::cout << "[parsed diagnostics: " << diagnostics.size() << "]\n";
 
@@ -28,6 +33,12 @@ int run_explain() {
         }
 
         std::cout << ":" << d.message << "\n";
+
+        if (!d.normalized_id.empty()) {
+            std::cout << "  [" << d.normalized_id << "]";
+        }
+
+        std::cout << "\n";
     }
 
     return 0;
