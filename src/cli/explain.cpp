@@ -38,6 +38,9 @@ int run_explain() {
     std::cout << "-----------------\n";
     std::cout << e.title << "\n\n";
 
+    std::cout << "Location\n";
+    std::cout << "  " << root.primary.file << ":" << root.primary.line << "\n\n";
+
     std::cout << "Why this happens:\n";
     std::cout << "  " << e.why << "\n\n";
 
