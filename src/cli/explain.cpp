@@ -5,6 +5,7 @@
 #include "diagnostics/Parser.h"
 #include "diagnostics/Normalizer.h"
 #include "diagnostics/Grouping.h"
+#include "rules/RootCauseEngine.h"
 
 
 int run_explain() {
@@ -30,14 +31,23 @@ int run_explain() {
 
     DiagnosticGroup root = grouper.select_root(groups);
 
+    RootCauseEngine engine;
+    Explanation e = engine.explain(root);
+
     std::cout << "Likely root cause\n";
     std::cout << "-----------------\n";
-    std::cout << root.primary.file << ":" << root.primary.line << "\n";
-    std::cout << root.primary.message << "\n";
-    
-    if (!root.primary.normalized_id.empty()) {
-        std::cout << "[" << root.primary.normalized_id << "]\n";
+    std::cout << e.title << "\n\n";
+
+    std::cout << "Why this happens:\n";
+    std::cout << "  " << e.why << "\n\n";
+
+    std::cout << "What to check next:\n";
+    for (const auto& item : e.what_to_check) {
+        std::cout << "  • " << item << "\n";
     }
+
+    std::cout << "\nConfidence:\n";
+    std::cout << "  " << e.confidence << "\n";
 
     std::cout << "\nSuppressed diagnostics: " << (groups.size() - 1) << "\n";
 

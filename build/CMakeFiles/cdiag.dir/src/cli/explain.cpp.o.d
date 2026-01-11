@@ -958,4 +958,6 @@ CMakeFiles/cdiag.dir/src/cli/explain.cpp.o: \
   /Users/anishnagula/Code/cdiag/src/diagnostics/Parser.h \
   /Users/anishnagula/Code/cdiag/src/diagnostics/Diagnostic.h \
   /Users/anishnagula/Code/cdiag/src/diagnostics/Normalizer.h \
-  /Users/anishnagula/Code/cdiag/src/diagnostics/Grouping.h
+  /Users/anishnagula/Code/cdiag/src/diagnostics/Grouping.h \
+  /Users/anishnagula/Code/cdiag/src/rules/RootCauseEngine.h \
+  /Users/anishnagula/Code/cdiag/src/rules/Rule.h
