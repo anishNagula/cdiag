@@ -18,7 +18,7 @@ DiagnosticGrouper::group(const std::vector<Diagnostic>& diagnostics) {
             continue;
         }
 
-        if (d.severity == Severity::Error) {
+        if (d.severity == Severity::Error || d.severity == Severity::Warning) {
             DiagnosticGroup g;
             g.primary = d;
             groups.push_back(g);
@@ -37,13 +37,22 @@ DiagnosticGrouper::select_root(const std::vector<DiagnosticGroup>& groups) {
         throw std::runtime_error("No error diagnostics found");
     }
 
-    // rule-1 first syntax error wins
+    // rule-1 syntax errors always win
     for (const auto& g : groups) {
-        if (is_syntax_error(g.primary)) {
+        if (g.primary.normalized_id == "EXPECTED_SEMICOLON" ||
+            g.primary.normalized_id == "EXPECTED_CLOSING_BRACE") {
             return g;
         }
     }
 
-    // rule-2 fallback to first error
+    // rule-2 implicit declaration warning explains conflicting types
+    for (size_t i = 0; i + 1 < groups.size(); ++i) {
+        if (groups[i].primary.normalized_id == "IMPLICIT_FUNCTION_DECL" &&
+            groups[i + 1].primary.normalized_id == "CONFLICTING_TYPES") {
+            return groups[i];
+        }
+    }
+
+    // rule-3 fallback to first error
     return groups.front();
 }

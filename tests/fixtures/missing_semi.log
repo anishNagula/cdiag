@@ -1,0 +1,2 @@
+main.c:12:5: error: expected ';' before 'int'
+main.c:13:1: error: unknown type name 'foo'

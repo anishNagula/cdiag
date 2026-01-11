@@ -1,0 +1,2 @@
+main.c:7:5: warning: implicit declaration of function 'foo'
+main.c:12:5: error: conflicting types for 'foo'
