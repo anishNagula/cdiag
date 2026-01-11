@@ -4,6 +4,7 @@
 
 #include "diagnostics/Parser.h"
 #include "diagnostics/Normalizer.h"
+#include "diagnostics/Grouping.h"
 
 
 int run_explain() {
@@ -20,26 +21,25 @@ int run_explain() {
     DiagnosticNormalizer normalizer;
     normalizer.normalize(diagnostics);
 
-    std::cout << "[parsed diagnostics: " << diagnostics.size() << "]\n";
+    DiagnosticGrouper grouper;
+    auto groups = grouper.group(diagnostics);
 
-    for (const auto& d : diagnostics) {
-        std::cout << d.file << ":" << d.line << " ";
-
-        switch (d.severity) {
-            case Severity::Error:   std::cout << "error"; break;
-            case Severity::Warning: std::cout << "warning"; break;
-            case Severity::Note:    std::cout << "note"; break;
-            default:                std::cout << "unknown"; break;
-        }
-
-        std::cout << ":" << d.message << "\n";
-
-        if (!d.normalized_id.empty()) {
-            std::cout << "  [" << d.normalized_id << "]";
-        }
-
-        std::cout << "\n";
+    if (groups.empty()) {
+        std::cout << "No compiler errors detected.\n";
     }
+
+    DiagnosticGroup root = grouper.select_root(groups);
+
+    std::cout << "Likely root cause\n";
+    std::cout << "-----------------\n";
+    std::cout << root.primary.file << ":" << root.primary.line << "\n";
+    std::cout << root.primary.message << "\n";
+    
+    if (!root.primary.normalized_id.empty()) {
+        std::cout << "[" << root.primary.normalized_id << "]\n";
+    }
+
+    std::cout << "\nSuppressed diagnostics: " << (groups.size() - 1) << "\n";
 
     return 0;
 }
